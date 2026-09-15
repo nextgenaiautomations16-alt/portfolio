@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrier Vet AI — Case Study</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #ffffff;
+    --surface: #f6f7fb;
+    --line: #e6e8f0;
+    --ink: #14161f;
+    --ink-soft: #565a6e;
+    --indigo: #4338ca;
+    --violet: #7c3aed;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 { font-family: 'Manrope', sans-serif; color: var(--ink); letter-spacing: -0.01em; }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+  .hero {
+    padding: 88px 0 56px;
+    background: linear-gradient(180deg, #fbfbfe 0%, #ffffff 100%);
+    border-bottom: 1px solid var(--line);
+  }
+  .hero .kicker { font-size: 15px; color: var(--ink-soft); margin-bottom: 14px; }
+  .hero h1 { font-size: 42px; font-weight: 800; line-height: 1.15; margin: 0 0 20px; max-width: 620px; }
+  .hero .lede { font-size: 18px; color: var(--ink-soft); max-width: 560px; margin: 0 0 28px; }
+  .hero .accent { background: linear-gradient(90deg, var(--indigo), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  .series-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 7px 14px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+  }
+  .series-note a { color: var(--indigo); font-weight: 600; text-decoration: none; }
+
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 11px 20px; border-radius: 8px; font-weight: 600; font-size: 14.5px; text-decoration: none; }
+  .btn-primary { background: linear-gradient(90deg, var(--indigo), var(--violet)); color: #fff; }
+  .btn-secondary { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 40px 0 0; }
+  .stat { background: #fff; padding: 22px 18px; text-align: left; }
+  .stat .num { font-family: 'Manrope', sans-serif; font-size: 30px; font-weight: 800; color: var(--indigo); }
+  .stat .label { font-size: 13.5px; color: var(--ink-soft); margin-top: 4px; }
+
+  section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  section.no-border { border-bottom: none; }
+  section h2 { font-size: 26px; font-weight: 800; margin: 0 0 18px; }
+  section p { color: var(--ink-soft); font-size: 16px; margin: 0 0 14px; max-width: 640px; }
+
+  .evidence-list { padding: 0; margin: 0; list-style: none; }
+  .evidence-list li { padding: 14px 0; border-top: 1px solid var(--line); font-size: 15px; color: var(--ink-soft); }
+  .evidence-list li:first-child { border-top: none; }
+  .evidence-list strong { color: var(--ink); font-weight: 600; }
+
+  .diagram { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 28px 20px; margin: 22px 0; }
+  .flow { display: flex; flex-direction: column; gap: 0; }
+  .flow-step { display: flex; align-items: center; gap: 14px; padding: 10px 0; }
+  .flow-badge { flex: none; width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, var(--indigo), var(--violet)); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; font-family: 'Manrope', sans-serif; }
+  .flow-text { font-size: 15px; }
+  .flow-text .title { font-weight: 600; color: var(--ink); }
+  .flow-text .sub { color: var(--ink-soft); font-size: 13.5px; }
+  .flow-connector { width: 1px; height: 18px; background: var(--line); margin-left: 15px; }
+  .flow-branch { margin-left: 44px; padding-left: 16px; border-left: 2px solid var(--line); margin-top: 4px; margin-bottom: 8px; }
+  .flow-branch.no-alert { border-left-color: #d7d9e4; }
+  .flow-branch .muted { color: #9297a8; font-size: 13px; font-style: italic; margin-top: 2px; }
+
+  .decision { padding: 20px 0; border-top: 1px solid var(--line); }
+  .decision:first-child { border-top: none; }
+  .decision h3 { font-size: 17px; margin: 0 0 8px; font-weight: 700; }
+  .decision p { margin: 0; font-size: 15px; }
+
+  .screenshot-frame { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); margin: 20px 0; }
+  .screenshot-frame .bar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 14px; display: flex; gap: 6px; }
+  .screenshot-frame .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+  .screenshot-frame .placeholder { padding: 60px 24px; text-align: center; color: var(--ink-soft); font-size: 14px; border: 1.5px dashed var(--line); margin: 16px; border-radius: 8px; }
+
+  .roadmap-item { display: flex; gap: 12px; padding: 12px 0; font-size: 15px; color: var(--ink-soft); }
+  .roadmap-item .mark { color: var(--violet); font-weight: 700; flex: none; }
+
+  .closing { padding: 64px 0 88px; text-align: left; }
+  .closing h2 { font-size: 28px; }
+  .closing p { font-size: 16px; margin-bottom: 24px; }
+
+  .inline-code { background: var(--surface); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 13.5px; }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 30px; }
+    .stats { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="kicker">Case study — NextGen AI Automations</div>
+    <div class="series-note">🔗 Part two of a freight-ops automation series — see <a href="loadaudit-ai-case-study.html">LoadAudit AI</a></div>
+    <h1>Teaching an AI agent to <span class="accent">vet a carrier</span> before a load ever leaves the dock</h1>
+    <p class="lede">Before a broker hands a load to a new carrier, someone has to check their operating authority, insurance, and safety record. Carrier Vet AI automates that check — and knows the difference between a hard no and a judgment call.</p>
+    <div class="cta-row">
+      <a href="https://github.com/nextgenaiautomations16-alt/carrier-vet-ai" class="btn btn-primary">View the code on GitHub</a>
+      <a href="#architecture" class="btn btn-secondary">See how it works</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num">100%</div><div class="label">Outcome accuracy on labeled test set</div></div>
+      <div class="stat"><div class="num">6 / 25</div><div class="label">Carriers correctly routed for human review</div></div>
+      <div class="stat"><div class="num">3 / 25</div><div class="label">Hard-rejected with zero human interruptions</div></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>The problem</h2>
+    <p>Before assigning a load to a carrier, a broker needs to confirm three things: the carrier's operating authority is active, their insurance is current and sufficient, and their FMCSA safety rating is acceptable. Skipping or rushing this check is how brokers end up liable when something goes wrong with a carrier that shouldn't have been hauling in the first place.</p>
+    <p>This isn't a hypothetical risk — brokerage tech vendors build entire product lines around automating carrier vetting, which is a reasonable signal that manual vetting is a real, expensive bottleneck in the industry today.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Evidence this is a real, active problem</h2>
+    <ul class="evidence-list">
+      <li><strong>Carrier vetting is a named feature, not an afterthought.</strong> AI-native TMS challengers market automated carrier onboarding and vetting as a core selling point — proof brokers are actively paying to solve this.</li>
+      <li><strong>The regulatory data already exists publicly.</strong> FMCSA's SAFER system tracks operating authority, safety rating, and insurance status for every registered carrier — the bottleneck isn't data availability, it's someone manually checking it every time.</li>
+      <li><strong>It pairs directly with a hiring-relevant skill set.</strong> Forward Deployed Engineer postings in freight/logistics explicitly list integrating with carrier and safety data sources as a core responsibility.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p>A new carrier's details come in, get checked against FMCSA's public safety and authority data, and run through a deterministic rules engine. Carriers with a genuine regulatory disqualifier are rejected automatically — no one needs to weigh in. Carriers with a real judgment call (new to the industry, insurance slightly under the minimum) get routed to a human with the specific reasons attached.</p>
+
+    <div class="diagram">
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-badge">1</div>
+          <div class="flow-text"><div class="title">New carrier reaches out</div><div class="sub">call, email, or load-board inquiry</div></div>
+        </div>
+        <div class="flow-connector"></div>
+        <div class="flow-step">
+          <div class="flow-badge">2</div>
+          <div class="flow-text"><div class="title">FMCSA lookup</div><div class="sub">operating authority, safety rating, insurance status</div></div>
+        </div>
+        <div class="flow-connector"></div>
+        <div class="flow-step">
+          <div class="flow-badge">3</div>
+          <div class="flow-text"><div class="title">Deterministic vetting engine</div><div class="sub">hard rejects vs. review triggers vs. clean approval</div></div>
+        </div>
+        <div class="flow-connector"></div>
+        <div class="flow-step">
+          <div class="flow-badge">4</div>
+          <div class="flow-text"><div class="title">Three possible outcomes</div><div class="sub">each one handled differently, on purpose</div></div>
+        </div>
+        <div class="flow-branch">
+          <div class="flow-text"><div class="title">Approve</div><div class="sub">clean record, no flags — ready to book</div></div>
+        </div>
+        <div class="flow-branch">
+          <div class="flow-text"><div class="title">Review → Slack alert</div><div class="sub">a real judgment call, with the specific reasons attached</div></div>
+        </div>
+        <div class="flow-branch no-alert">
+          <div class="flow-text"><div class="title">Reject</div><div class="sub">a hard regulatory disqualifier</div><div class="muted">— no Slack alert sent; there's no decision left to make</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Deliberate design decisions</h2>
+
+    <div class="decision">
+      <h3>Hard rejects don't page a human</h3>
+      <p>A carrier with revoked authority or no insurance on file isn't a judgment call — the regulation already answered the question. Alerting a human on every flagged carrier, rejects included, would just be noise. The system earns its keep specifically in the "review" bucket, where a real decision actually has to be made.</p>
+    </div>
+
+    <div class="decision">
+      <h3>The vetting rules are explicit, not model-inferred</h3>
+      <p>Same principle as LoadAudit AI: the LLM/lookup layer gathers information, but the approve/review/reject decision comes from a rules engine a broker can audit line by line — important when a carrier disputes a rejection.</p>
+    </div>
+
+    <div class="decision">
+      <h3>Real vs. simulated is stated plainly</h3>
+      <p>The FMCSA integration has a real API code path (for a free FMCSA web key) and a local fallback for demo purposes — both are documented as exactly what they are in the README, rather than presenting a demo as more "live" than it is.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Deployed and tested — not a notebook</h2>
+    <p>Here's a real carrier flagged for review, landing in Slack during testing:</p>
+    <div class="screenshot-frame">
+      <div class="bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="placeholder">[ Replace this box with your Slack screenshot — the 🔎 alert message with the carrier name, risk score, and flagged reasons ]</div>
+    </div>
+  </div>
+</section>
+
+<section class="no-border">
+  <div class="wrap">
+    <h2>What's next</h2>
+    <div class="roadmap-item"><div class="mark">→</div><div>Fully wire and test the live FMCSA API path against real credentials</div></div>
+    <div class="roadmap-item"><div class="mark">→</div><div>Add a BIPD insurance lookup for the dollar-amount coverage figure</div></div>
+    <div class="roadmap-item"><div class="mark">→</div><div>Write approved carriers back to a real CRM instead of returning JSON</div></div>
+    <div class="roadmap-item"><div class="mark">→</div><div>Add clickable Approve/Reject buttons directly inside Slack</div></div>
+  </div>
+</section>
+
+<div class="closing">
+  <div class="wrap">
+    <h2>Want to see it running?</h2>
+    <p>Full source, README, and evaluation results are on GitHub. This project is designed to be read alongside LoadAudit AI — same architecture, applied to a different part of a freight brokerage's back office.</p>
+    <div class="cta-row">
+      <a href="https://github.com/nextgenaiautomations16-alt/carrier-vet-ai" class="btn btn-primary">github.com/nextgenaiautomations16-alt/carrier-vet-ai</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

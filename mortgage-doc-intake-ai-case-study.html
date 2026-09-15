@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mortgage Doc Intake AI — Case Study</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #ffffff;
+    --surface: #f6f7fb;
+    --line: #e6e8f0;
+    --ink: #14161f;
+    --ink-soft: #565a6e;
+    --indigo: #4338ca;
+    --violet: #7c3aed;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 { font-family: 'Manrope', sans-serif; color: var(--ink); letter-spacing: -0.01em; }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+  .hero {
+    padding: 88px 0 56px;
+    background: linear-gradient(180deg, #fbfbfe 0%, #ffffff 100%);
+    border-bottom: 1px solid var(--line);
+  }
+  .hero .kicker { font-size: 15px; color: var(--ink-soft); margin-bottom: 14px; }
+  .hero h1 { font-size: 42px; font-weight: 800; line-height: 1.15; margin: 0 0 20px; max-width: 620px; }
+  .hero .lede { font-size: 18px; color: var(--ink-soft); max-width: 560px; margin: 0 0 28px; }
+  .hero .accent { background: linear-gradient(90deg, var(--indigo), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  .series-note {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 7px 14px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+  }
+  .series-note a { color: var(--indigo); font-weight: 600; text-decoration: none; }
+  .series-note .sep { color: #c7c9d6; }
+
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 11px 20px; border-radius: 8px; font-weight: 600; font-size: 14.5px; text-decoration: none; }
+  .btn-primary { background: linear-gradient(90deg, var(--indigo), var(--violet)); color: #fff; }
+  .btn-secondary { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 40px 0 0; }
+  .stat { background: #fff; padding: 22px 18px; text-align: left; }
+  .stat .num { font-family: 'Manrope', sans-serif; font-size: 30px; font-weight: 800; color: var(--indigo); }
+  .stat .label { font-size: 13.5px; color: var(--ink-soft); margin-top: 4px; }
+
+  section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  section.no-border { border-bottom: none; }
+  section h2 { font-size: 26px; font-weight: 800; margin: 0 0 18px; }
+  section p { color: var(--ink-soft); font-size: 16px; margin: 0 0 14px; max-width: 640px; }
+
+  .diagram { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 28px 20px; margin: 22px 0; }
+  .flow { display: flex; flex-direction: column; gap: 0; }
+  .flow-step { display: flex; align-items: center; gap: 14px; padding: 10px 0; }
+  .flow-badge { flex: none; width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, var(--indigo), var(--violet)); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; font-family: 'Manrope', sans-serif; }
+  .flow-text { font-size: 15px; }
+  .flow-text .title { font-weight: 600; color: var(--ink); }
+  .flow-text .sub { color: var(--ink-soft); font-size: 13.5px; }
+  .flow-connector { width: 1px; height: 18px; background: var(--line); margin-left: 15px; }
+  .flow-branch { margin-left: 44px; padding-left: 16px; border-left: 2px solid var(--line); margin-top: 4px; margin-bottom: 8px; }
+  .flow-branch.review { border-left-color: #d97706; }
+  .flow-branch .muted { color: #9297a8; font-size: 13px; font-style: italic; margin-top: 2px; }
+  .badge { display: inline-block; font-size: 11.5px; font-weight: 700; padding: 2px 8px; border-radius: 100px; margin-left: 6px; vertical-align: middle; }
+  .badge.review { background: #fef3c7; color: #b45309; }
+
+  .decision { padding: 20px 0; border-top: 1px solid var(--line); }
+  .decision:first-child { border-top: none; }
+  .decision h3 { font-size: 17px; margin: 0 0 8px; font-weight: 700; }
+  .decision p { margin: 0; font-size: 15px; }
+
+  .screenshot-frame { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); margin: 20px 0; }
+  .screenshot-frame .bar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 14px; display: flex; gap: 6px; }
+  .screenshot-frame .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+  .screenshot-frame .placeholder { padding: 60px 24px; text-align: center; color: var(--ink-soft); font-size: 14px; border: 1.5px dashed var(--line); margin: 16px; border-radius: 8px; }
+
+  .roadmap-item { display: flex; gap: 12px; padding: 12px 0; font-size: 15px; color: var(--ink-soft); }
+  .roadmap-item .mark { color: var(--violet); font-weight: 700; flex: none; }
+
+  .closing { padding: 64px 0 88px; text-align: left; }
+  .closing h2 { font-size: 28px; }
+  .closing p { font-size: 16px; margin-bottom: 24px; }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 30px; }
+    .stats { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="kicker">Case study — NextGen AI Automations</div>
+    <div class="series-note">
+      🔗 Part six of an automation series —
+      <a href="loadaudit-ai-case-study.html">LoadAudit AI</a>
+      <span class="sep">·</span>
+      <a href="carrier-vet-ai-case-study.html">Carrier Vet AI</a>
+      <span class="sep">·</span>
+      <a href="claims-intake-ai-case-study.html">Claims Intake AI</a>
+      <span class="sep">·</span>
+      <a href="support-triage-ai-case-study.html">Support Triage AI</a>
+      <span class="sep">·</span>
+      <a href="lead-response-ai-case-study.html">Lead Response AI</a>
+    </div>
+    <h1>Teaching an AI agent to <span class="accent">stack a loan file</span> before it ever reaches underwriting</h1>
+    <p class="lede">Before a mortgage file can move forward, someone has to confirm every required document is present, current, legible, and actually belongs to the borrower. Mortgage Doc Intake AI automates that check — and treats a missing document completely differently from a suspicious one.</p>
+    <div class="cta-row">
+      <a href="https://github.com/nextgenaiautomations16-alt/mortgage-doc-intake-ai" class="btn btn-primary">View the code on GitHub</a>
+      <a href="#architecture" class="btn btn-secondary">See how it works</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num">100%</div><div class="label">Outcome accuracy on labeled test set</div></div>
+      <div class="stat"><div class="num">10 / 26</div><div class="label">Applications correctly flagged for review</div></div>
+      <div class="stat"><div class="num">3</div><div class="label">Distinct outcomes, each handled differently</div></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>The problem</h2>
+    <p>Every mortgage application needs a specific set of documents before it can move to underwriting, and exactly which documents are required depends on the loan type (conventional vs. FHA) and the borrower's employment situation (W-2 vs. self-employed). Manually tracking which file is missing what, whether a bank statement is still within its freshness window, and whether every document actually matches the borrower's name is repetitive, easy to get wrong, and a common source of delay in the loan process.</p>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p>The system builds the exact required-document checklist for each file, then checks what's actually been submitted against it — and routes the result down one of three genuinely different paths, not a single generic "flagged" bucket.</p>
+
+    <div class="diagram">
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-badge">1</div>
+          <div class="flow-text"><div class="title">Checklist built</div><div class="sub">based on loan type + employment type</div></div>
+        </div>
+        <div class="flow-connector"></div>
+        <div class="flow-step">
+          <div class="flow-badge">2</div>
+          <div class="flow-text"><div class="title">Submitted documents checked</div><div class="sub">presence, freshness, legibility, name match</div></div>
+        </div>
+        <div class="flow-branch">
+          <div class="flow-text"><div class="title">Missing a document</div><div class="sub">automated request drafted and sent — no human involved</div></div>
+        </div>
+        <div class="flow-branch review">
+          <div class="flow-text"><div class="title">Needs review <span class="badge review">Slack alert</span></div><div class="sub">illegible, stale, or a borrower-name mismatch — genuinely needs a human look</div></div>
+        </div>
+        <div class="flow-branch">
+          <div class="flow-text"><div class="title">Ready</div><div class="sub">moves straight to the underwriting queue</div><div class="muted">— no alert, nothing left to check</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Deliberate design decisions</h2>
+
+    <div class="decision">
+      <h3>A missing document and a suspicious one are not the same problem</h3>
+      <p>A missing document is a mechanical gap — the system knows exactly what's needed and can draft the request itself with no ambiguity. An illegible scan, a stale statement, or a name mismatch all require a person to actually look at the document and use judgment. Collapsing these into one "incomplete" bucket would have meant either annoying a human with routine missing-paperwork requests, or letting a real problem slip through as a false "complete."</p>
+    </div>
+
+    <div class="decision">
+      <h3>The checklist logic isn't exposed as a casual config</h3>
+      <p>Which documents a loan needs is largely dictated by investor and agency guidelines, not personal preference — so the checklist rules live in code, versioned and reviewable, rather than as a setting someone could accidentally misconfigure.</p>
+    </div>
+
+    <div class="decision">
+      <h3>Freshness has a real, stated threshold — not a vague "recent enough"</h3>
+      <p>Bank statements older than 60 days are explicitly flagged, with the exact age reported in the Slack alert. A specific, visible number is something a processor can act on immediately; "this looks a bit old" is not.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Deployed and tested — not a notebook</h2>
+    <p>Here's a real application flagged for review, landing in Slack during testing:</p>
+    <div class="screenshot-frame">
+      <div class="bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="placeholder">[ Replace this box with your Slack screenshot — the 📋 review alert with the specific reason: stale statement, illegible doc, or name mismatch ]</div>
+    </div>
+  </div>
+</section>
+
+<section class="no-border">
+  <div class="wrap">
+    <h2>What's next</h2>
+    <div class="roadmap-item"><div class="mark">→</div><div>Add OCR/document-vision to derive legibility from a real scanned file instead of taking it as a given input</div></div>
+    <div class="roadmap-item"><div class="mark">→</div><div>Hand off "ready" files to a real underwriting queue/LOS system</div></div>
+    <div class="roadmap-item"><div class="mark">→</div><div>Integrate with an actual borrower portal instead of a structured API call</div></div>
+    <div class="roadmap-item"><div class="mark">→</div><div>Make the freshness-window rule configurable per investor guideline rather than a single hardcoded 60-day rule</div></div>
+  </div>
+</section>
+
+<div class="closing">
+  <div class="wrap">
+    <h2>Want to see it running?</h2>
+    <p>Full source, README, and evaluation results are on GitHub. This is the sixth project in a series applying the same architecture — deterministic rules, human-in-the-loop only where it matters — to a document-heavy compliance workflow that pairs naturally with the real-estate project earlier in the series.</p>
+    <div class="cta-row">
+      <a href="https://github.com/nextgenaiautomations16-alt/mortgage-doc-intake-ai" class="btn btn-primary">github.com/nextgenaiautomations16-alt/mortgage-doc-intake-ai</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

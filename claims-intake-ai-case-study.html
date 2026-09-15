@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claims Intake AI — Case Study</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #ffffff;
+    --surface: #f6f7fb;
+    --line: #e6e8f0;
+    --ink: #14161f;
+    --ink-soft: #565a6e;
+    --indigo: #4338ca;
+    --violet: #7c3aed;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 { font-family: 'Manrope', sans-serif; color: var(--ink); letter-spacing: -0.01em; }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+  .hero {
+    padding: 88px 0 56px;
+    background: linear-gradient(180deg, #fbfbfe 0%, #ffffff 100%);
+    border-bottom: 1px solid var(--line);
+  }
+  .hero .kicker { font-size: 15px; color: var(--ink-soft); margin-bottom: 14px; }
+  .hero h1 { font-size: 42px; font-weight: 800; line-height: 1.15; margin: 0 0 20px; max-width: 620px; }
+  .hero .lede { font-size: 18px; color: var(--ink-soft); max-width: 560px; margin: 0 0 28px; }
+  .hero .accent { background: linear-gradient(90deg, var(--indigo), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  .series-note {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 7px 14px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+  }
+  .series-note a { color: var(--indigo); font-weight: 600; text-decoration: none; }
+  .series-note .sep { color: #c7c9d6; }
+
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 11px 20px; border-radius: 8px; font-weight: 600; font-size: 14.5px; text-decoration: none; }
+  .btn-primary { background: linear-gradient(90deg, var(--indigo), var(--violet)); color: #fff; }
+  .btn-secondary { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 40px 0 0; }
+  .stat { background: #fff; padding: 22px 18px; text-align: left; }
+  .stat .num { font-family: 'Manrope', sans-serif; font-size: 30px; font-weight: 800; color: var(--indigo); }
+  .stat .label { font-size: 13.5px; color: var(--ink-soft); margin-top: 4px; }
+
+  section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  section.no-border { border-bottom: none; }
+  section h2 { font-size: 26px; font-weight: 800; margin: 0 0 18px; }
+  section p { color: var(--ink-soft); font-size: 16px; margin: 0 0 14px; max-width: 640px; }
+
+  .diagram { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 28px 20px; margin: 22px 0; }
+  .flow { display: flex; flex-direction: column; gap: 0; }
+  .flow-step { display: flex; align-items: center; gap: 14px; padding: 10px 0; }
+  .flow-badge { flex: none; width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, var(--indigo), var(--violet)); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; font-family: 'Manrope', sans-serif; }
+  .flow-text { font-size: 15px; }
+  .flow-text .title { font-weight: 600; color: var(--ink); }
+  .flow-text .sub { color: var(--ink-soft); font-size: 13.5px; }
+  .flow-connector { width: 1px; height: 18px; background: var(--line); margin-left: 15px; }
+  .flow-branch { margin-left: 44px; padding-left: 16px; border-left: 2px solid var(--line); margin-top: 4px; margin-bottom: 8px; }
+  .flow-branch.critical { border-left-color: #dc2626; }
+  .flow-branch.no-alert { border-left-color: #d7d9e4; }
+  .flow-branch .muted { color: #9297a8; font-size: 13px; font-style: italic; margin-top: 2px; }
+  .badge { display: inline-block; font-size: 11.5px; font-weight: 700; padding: 2px 8px; border-radius: 100px; margin-left: 6px; vertical-align: middle; }
+  .badge.critical { background: #fee2e2; color: #b91c1c; }
+  .badge.high { background: #fef3c7; color: #b45309; }
+  .badge.normal { background: var(--surface); color: var(--ink-soft); border: 1px solid var(--line); }
+
+  .decision { padding: 20px 0; border-top: 1px solid var(--line); }
+  .decision:first-child { border-top: none; }
+  .decision h3 { font-size: 17px; margin: 0 0 8px; font-weight: 700; }
+  .decision p { margin: 0; font-size: 15px; }
+
+  .screenshot-frame { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); margin: 20px 0; }
+  .screenshot-frame .bar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 14px; display: flex; gap: 6px; }
+  .screenshot-frame .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+  .screenshot-frame .placeholder { padding: 60px 24px; text-align: center; color: var(--ink-soft); font-size: 14px; border: 1.5px dashed var(--line); margin: 16px; border-radius: 8px; }
+
+  .roadmap-item { display: flex; gap: 12px; padding: 12px 0; font-size: 15px; color: var(--ink-soft); }
+  .roadmap-item .mark { color: var(--violet); font-weight: 700; flex: none; }
+
+  .closing { padding: 64px 0 88px; text-align: left; }
+  .closing h2 { font-size: 28px; }
+  .closing p { font-size: 16px; margin-bottom: 24px; }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 30px; }
+    .stats { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="kicker">Case study — NextGen AI Automations</div>
+    <div class="series-note">
+      🔗 Part three of an automation series —
+      <a href="loadaudit-ai-case-study.html">LoadAudit AI</a>
+      <span class="sep">·</span>
+      <a href="carrier-vet-ai-case-study.html">Carrier Vet AI</a>
+    </div>
+    <h1>Teaching an AI agent to <span class="accent">triage an insurance claim</span> the moment it comes in</h1>
+    <p class="lede">Every incoming claim needs a decision: does it need an adjuster right now, is the paperwork incomplete, or is it simple enough to fast-track? Claims Intake AI automates that first call — and treats a fatality claim completely differently from everything else.</p>
+    <div class="cta-row">
+      <a href="https://github.com/nextgenaiautomations16-alt/claims-intake-ai" class="btn btn-primary">View the code on GitHub</a>
+      <a href="#architecture" class="btn btn-secondary">See how it works</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num">100%</div><div class="label">Outcome accuracy on labeled test set</div></div>
+      <div class="stat"><div class="num">0</div><div class="label">Fatality claims missed — tracked as its own metric</div></div>
+      <div class="stat"><div class="num">8 / 28</div><div class="label">Claims correctly escalated to a human</div></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>The problem</h2>
+    <p>First Notice of Loss (FNOL) intake — pulling the basic facts out of a claim and deciding who needs to look at it next — is one of the most manual, repetitive parts of the claims lifecycle. It's also explicitly <em>not</em> a coverage decision, which makes it a safely scoped task to automate: the system decides who looks at a claim next, never whether it's covered.</p>
+    <p>Carriers running AI-driven triage report claims resolved dramatically faster than fully manual review, with a meaningful share going fully touchless — proof this is a real efficiency lever the industry is already pulling, not a hypothetical.</p>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p>A claim comes in with the basic facts. A deterministic engine checks it against a small number of explicit rules, in a specific order, and routes it to exactly one of three outcomes.</p>
+
+    <div class="diagram">
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-badge">1</div>
+          <div class="flow-text"><div class="title">Claim intake</div><div class="sub">injury/fatality status, damage estimate, documentation status</div></div>
+        </div>
+        <div class="flow-connector"></div>
+        <div class="flow-step">
+          <div class="flow-badge">2</div>
+          <div class="flow-text"><div class="title">Fatality check — first, alone</div><div class="sub">if true, nothing else matters — escalate immediately</div></div>
+        </div>
+        <div class="flow-connector"></div>
+        <div class="flow-step">
+          <div class="flow-badge">3</div>
+          <div class="flow-text"><div class="title">Remaining rules checked in order</div><div class="sub">injury, damage threshold, documentation completeness</div></div>
+        </div>
+        <div class="flow-branch critical">
+          <div class="flow-text"><div class="title">Escalate <span class="badge critical">critical</span> <span class="badge high">high</span> <span class="badge normal">normal</span></div><div class="sub">Slack alert, priority-coded by emoji</div></div>
+        </div>
+        <div class="flow-branch">
+          <div class="flow-text"><div class="title">Incomplete</div><div class="sub">routed back to the claimant — no human interruption yet</div></div>
+        </div>
+        <div class="flow-branch no-alert">
+          <div class="flow-text"><div class="title">Fast-track</div><div class="sub">low-value, complete, no injury</div><div class="muted">— no Slack alert; nothing for a human to decide</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Deliberate design decisions</h2>
+
+    <div class="decision">
+      <h3>Fatality is checked first, alone, before anything else</h3>
+      <p>Every other rule in the engine can combine with others to build up a risk picture. Fatality doesn't — it short-circuits the whole function and escalates immediately at critical priority, on its own line of code, so it's impossible for a fatality claim to accidentally fall through a combination of other conditions.</p>
+    </div>
+
+    <div class="decision">
+      <h3>The eval script reports fatality misses as their own number</h3>
+      <p>A single "94% accuracy" headline could still hide a missed fatality claim inside the 6% error rate. The evaluation harness in this project deliberately breaks that number out on its own line, because it's the one metric a claims team cannot treat as acceptable background noise.</p>
+    </div>
+
+    <div class="decision">
+      <h3>Ambiguous claims default to a human, not to automation</h3>
+      <p>A claim that's too big for fast-track but doesn't trip any specific flag still escalates rather than auto-processing. The cost of an unnecessary adjuster look is small. The cost of a wrongly automated payout on a claim that needed scrutiny is not — so the system is deliberately conservative at that boundary.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Deployed and tested — not a notebook</h2>
+    <p>Here's a real escalated claim landing in Slack during testing, with its priority-coded emoji:</p>
+    <div class="screenshot-frame">
+      <div class="bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="placeholder">[ Replace this box with your Slack screenshot — the 🆘/⚠️/📋 alert message with claim details and escalation reasons ]</div>
+    </div>
+  </div>
+</section>
+
+<section class="no-border">
+  <div class="wrap">
+    <h2>What's next</h2>
+    <div class="roadmap-item"><div class="mark">→</div><div>Add a free-text/voice FNOL extraction layer in front of triage (same LLM + fallback pattern used in LoadAudit AI)</div></div>
+    <div class="roadmap-item"><div class="mark">→</div><div>Automate claimant follow-up for incomplete claims instead of leaving that step manual</div></div>
+    <div class="roadmap-item"><div class="mark">→</div><div>Persist to a real database and add a dashboard — escalation rate, time-to-adjuster, fast-track %</div></div>
+    <div class="roadmap-item"><div class="mark">→</div><div>Integrate with a policy admin system to verify coverage before triage runs</div></div>
+  </div>
+</section>
+
+<div class="closing">
+  <div class="wrap">
+    <h2>Want to see it running?</h2>
+    <p>Full source, README, and evaluation results are on GitHub. This is the third project in a series applying the same deterministic-rules-plus-human-in-the-loop architecture to a different back-office workflow — worth reading alongside LoadAudit AI and Carrier Vet AI to see the pattern hold across industries.</p>
+    <div class="cta-row">
+      <a href="https://github.com/nextgenaiautomations16-alt/claims-intake-ai" class="btn btn-primary">github.com/nextgenaiautomations16-alt/claims-intake-ai</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

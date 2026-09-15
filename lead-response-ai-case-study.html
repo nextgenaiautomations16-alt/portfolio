@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead Response AI — Case Study</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #ffffff;
+    --surface: #f6f7fb;
+    --line: #e6e8f0;
+    --ink: #14161f;
+    --ink-soft: #565a6e;
+    --indigo: #4338ca;
+    --violet: #7c3aed;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 { font-family: 'Manrope', sans-serif; color: var(--ink); letter-spacing: -0.01em; }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+  .hero {
+    padding: 88px 0 56px;
+    background: linear-gradient(180deg, #fbfbfe 0%, #ffffff 100%);
+    border-bottom: 1px solid var(--line);
+  }
+  .hero .kicker { font-size: 15px; color: var(--ink-soft); margin-bottom: 14px; }
+  .hero h1 { font-size: 42px; font-weight: 800; line-height: 1.15; margin: 0 0 20px; max-width: 620px; }
+  .hero .lede { font-size: 18px; color: var(--ink-soft); max-width: 560px; margin: 0 0 28px; }
+  .hero .accent { background: linear-gradient(90deg, var(--indigo), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  .series-note {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 7px 14px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+  }
+  .series-note a { color: var(--indigo); font-weight: 600; text-decoration: none; }
+  .series-note .sep { color: #c7c9d6; }
+
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 11px 20px; border-radius: 8px; font-weight: 600; font-size: 14.5px; text-decoration: none; }
+  .btn-primary { background: linear-gradient(90deg, var(--indigo), var(--violet)); color: #fff; }
+  .btn-secondary { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 40px 0 0; }
+  .stat { background: #fff; padding: 22px 18px; text-align: left; }
+  .stat .num { font-family: 'Manrope', sans-serif; font-size: 30px; font-weight: 800; color: var(--indigo); }
+  .stat .label { font-size: 13.5px; color: var(--ink-soft); margin-top: 4px; }
+
+  section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  section.no-border { border-bottom: none; }
+  section h2 { font-size: 26px; font-weight: 800; margin: 0 0 18px; }
+  section p { color: var(--ink-soft); font-size: 16px; margin: 0 0 14px; max-width: 640px; }
+
+  .evidence-list { padding: 0; margin: 0; list-style: none; }
+  .evidence-list li { padding: 14px 0; border-top: 1px solid var(--line); font-size: 15px; color: var(--ink-soft); }
+  .evidence-list li:first-child { border-top: none; }
+  .evidence-list strong { color: var(--ink); font-weight: 600; }
+
+  .diagram { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 28px 20px; margin: 22px 0; }
+  .flow { display: flex; flex-direction: column; gap: 0; }
+  .flow-step { display: flex; align-items: center; gap: 14px; padding: 10px 0; }
+  .flow-badge { flex: none; width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, var(--indigo), var(--violet)); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; font-family: 'Manrope', sans-serif; }
+  .flow-text { font-size: 15px; }
+  .flow-text .title { font-weight: 600; color: var(--ink); }
+  .flow-text .sub { color: var(--ink-soft); font-size: 13.5px; }
+  .flow-connector { width: 1px; height: 18px; background: var(--line); margin-left: 15px; }
+  .flow-branch { margin-left: 44px; padding-left: 16px; border-left: 2px solid var(--line); margin-top: 4px; margin-bottom: 8px; }
+  .flow-branch.hot { border-left-color: #ea580c; }
+  .flow-branch .muted { color: #9297a8; font-size: 13px; font-style: italic; margin-top: 2px; }
+  .badge { display: inline-block; font-size: 11.5px; font-weight: 700; padding: 2px 8px; border-radius: 100px; margin-left: 6px; vertical-align: middle; }
+  .badge.hot { background: #ffedd5; color: #c2410c; }
+
+  .decision { padding: 20px 0; border-top: 1px solid var(--line); }
+  .decision:first-child { border-top: none; }
+  .decision h3 { font-size: 17px; margin: 0 0 8px; font-weight: 700; }
+  .decision p { margin: 0; font-size: 15px; }
+
+  .screenshot-frame { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); margin: 20px 0; }
+  .screenshot-frame .bar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 14px; display: flex; gap: 6px; }
+  .screenshot-frame .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+  .screenshot-frame .placeholder { padding: 60px 24px; text-align: center; color: var(--ink-soft); font-size: 14px; border: 1.5px dashed var(--line); margin: 16px; border-radius: 8px; }
+
+  .roadmap-item { display: flex; gap: 12px; padding: 12px 0; font-size: 15px; color: var(--ink-soft); }
+  .roadmap-item .mark { color: var(--violet); font-weight: 700; flex: none; }
+
+  .closing { padding: 64px 0 88px; text-align: left; }
+  .closing h2 { font-size: 28px; }
+  .closing p { font-size: 16px; margin-bottom: 24px; }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 30px; }
+    .stats { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="kicker">Case study — NextGen AI Automations</div>
+    <div class="series-note">
+      🔗 Part five of an automation series —
+      <a href="loadaudit-ai-case-study.html">LoadAudit AI</a>
+      <span class="sep">·</span>
+      <a href="carrier-vet-ai-case-study.html">Carrier Vet AI</a>
+      <span class="sep">·</span>
+      <a href="claims-intake-ai-case-study.html">Claims Intake AI</a>
+      <span class="sep">·</span>
+      <a href="support-triage-ai-case-study.html">Support Triage AI</a>
+    </div>
+    <h1>Teaching an AI agent to <span class="accent">call a hot lead before it goes cold</span></h1>
+    <p class="lede">In real estate, the gap between calling a lead back in minutes versus hours has a huge effect on whether it ever converts. Lead Response AI scores every inbound lead instantly and puts a genuinely hot one in front of an agent within seconds — not at the end of the day.</p>
+    <div class="cta-row">
+      <a href="https://github.com/nextgenaiautomations16-alt/lead-response-ai" class="btn btn-primary">View the code on GitHub</a>
+      <a href="#architecture" class="btn btn-secondary">See how it works</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num">100%</div><div class="label">Tier accuracy on labeled test set</div></div>
+      <div class="stat"><div class="num">0</div><div class="label">Hot leads missing an instant reply</div></div>
+      <div class="stat"><div class="num">6 / 26</div><div class="label">Leads correctly flagged hot for an immediate call</div></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>The problem</h2>
+    <p>Real estate leads come in from Zillow, a website form, a Facebook ad, an open house sign-in — often at odd hours, often in a flood. Every one of them needs a fast reply, but only some of them are actually ready to buy right now. Most teams can't staff someone to watch every channel around the clock, so a genuinely hot lead — someone pre-approved and ready to move — can sit in the same queue as someone just browsing, and lose the window where a fast call would have mattered.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Why speed is the whole point here</h2>
+    <ul class="evidence-list">
+      <li><strong>Response time has an outsized effect on conversion.</strong> The gap between calling a lead back in minutes versus hours is one of the most consistently cited factors in real estate lead conversion — this isn't a marginal optimization, it's often the difference between a lead converting at all.</li>
+      <li><strong>Not every lead deserves the same urgency.</strong> Treating every inbound message as equally time-sensitive burns out an agent's attention on browsers and vague inquiries, leaving less energy for the leads that are actually ready.</li>
+      <li><strong>This connects directly to real work I've done.</strong> I've built real-estate-specific lead-follow-up positioning before through NextGen AI Automations — this project is that same instinct, built out as a working system with real evaluation behind it.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p>A lead comes in, gets scored against a small set of explicit qualifiers, and gets an instant reply no matter what — the one thing that never happens is a lead getting no response at all.</p>
+
+    <div class="diagram">
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-badge">1</div>
+          <div class="flow-text"><div class="title">Inbound lead</div><div class="sub">Zillow, website form, Facebook ad, open house sign-in</div></div>
+        </div>
+        <div class="flow-connector"></div>
+        <div class="flow-step">
+          <div class="flow-badge">2</div>
+          <div class="flow-text"><div class="title">Scoring engine</div><div class="sub">pre-approval, timeline, stated budget</div></div>
+        </div>
+        <div class="flow-connector"></div>
+        <div class="flow-step">
+          <div class="flow-badge">3</div>
+          <div class="flow-text"><div class="title">Instant reply drafted — every tier, no exceptions</div><div class="sub">an unanswered lead is a lost one, regardless of quality</div></div>
+        </div>
+        <div class="flow-branch hot">
+          <div class="flow-text"><div class="title">Hot <span class="badge hot">real-time alert</span></div><div class="sub">Slack alert, "call within 5 minutes," with the qualifying reasons</div></div>
+        </div>
+        <div class="flow-branch">
+          <div class="flow-text"><div class="title">Warm</div><div class="sub">queued for structured follow-up</div></div>
+        </div>
+        <div class="flow-branch">
+          <div class="flow-text"><div class="title">Cold</div><div class="sub">low-priority nurture queue</div><div class="muted">— still gets a reply, just no urgency</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Deliberate design decisions</h2>
+
+    <div class="decision">
+      <h3>Every lead gets a reply, regardless of tier</h3>
+      <p>It would be easy to only bother drafting a response for hot leads and let warm/cold ones sit. That's exactly backwards — the leads most likely to feel ignored (and go find another agent) are the ones who aren't obviously urgent yet. The instant reply is universal; only the human alert is tiered.</p>
+    </div>
+
+    <div class="decision">
+      <h3>The eval checks that hot scoring and hot replies never disagree</h3>
+      <p>It's not enough for the tier classification to be accurate — a "hot" lead that somehow ends up with no drafted reply attached has failed at the actual job. The evaluation harness checks this as its own separate condition, not just folded into overall tier accuracy.</p>
+    </div>
+
+    <div class="decision">
+      <h3>The Slack alert is designed to be actionable, not just informative</h3>
+      <p>It doesn't just say "new hot lead" — it states the qualifying reasons and an explicit "call within 5 minutes" framing, because the entire value of this system lives in how fast a human acts on it, not in how sophisticated the scoring math is.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Deployed and tested — not a notebook</h2>
+    <p>Here's a real hot lead landing in Slack during testing:</p>
+    <div class="screenshot-frame">
+      <div class="bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="placeholder">[ Replace this box with your Slack screenshot — the 🔥 HOT lead alert with qualifying reasons and the "call within 5 minutes" note ]</div>
+    </div>
+  </div>
+</section>
+
+<section class="no-border">
+  <div class="wrap">
+    <h2>What's next</h2>
+    <div class="roadmap-item"><div class="mark">→</div><div>Automate warm-lead nurture sequences and cold-lead drip campaigns instead of just categorizing them</div></div>
+    <div class="roadmap-item"><div class="mark">→</div><div>Write scored leads back to a real CRM (GoHighLevel, HubSpot) instead of returning JSON</div></div>
+    <div class="roadmap-item"><div class="mark">→</div><div>Deliver the instant reply via actual SMS/email instead of just generating the text</div></div>
+    <div class="roadmap-item"><div class="mark">→</div><div>Add a "days since last contact" signal for re-engaging leads that went quiet</div></div>
+  </div>
+</section>
+
+<div class="closing">
+  <div class="wrap">
+    <h2>Want to see it running?</h2>
+    <p>Full source, README, and evaluation results are on GitHub. This is the fifth project in a series applying the same architecture — deterministic rules, human-in-the-loop only where it matters — to a genuinely different kind of problem: speed-sensitive sales instead of audit-sensitive back-office work.</p>
+    <div class="cta-row">
+      <a href="https://github.com/nextgenaiautomations16-alt/lead-response-ai" class="btn btn-primary">github.com/nextgenaiautomations16-alt/lead-response-ai</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

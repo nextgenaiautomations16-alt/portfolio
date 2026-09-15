@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Automation Case Studies — NextGen AI Automations</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #ffffff;
+    --surface: #f6f7fb;
+    --line: #e6e8f0;
+    --ink: #14161f;
+    --ink-soft: #565a6e;
+    --indigo: #4338ca;
+    --violet: #7c3aed;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 { font-family: 'Manrope', sans-serif; color: var(--ink); letter-spacing: -0.01em; }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  .hero {
+    padding: 96px 0 60px;
+    background: linear-gradient(180deg, #fbfbfe 0%, #ffffff 100%);
+    border-bottom: 1px solid var(--line);
+  }
+  .hero .kicker { font-size: 15px; color: var(--ink-soft); margin-bottom: 14px; }
+  .hero h1 { font-size: 44px; font-weight: 800; line-height: 1.15; margin: 0 0 20px; max-width: 700px; }
+  .hero .lede { font-size: 18px; color: var(--ink-soft); max-width: 620px; margin: 0 0 28px; }
+  .hero .accent { background: linear-gradient(90deg, var(--indigo), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 11px 20px; border-radius: 8px; font-weight: 600; font-size: 14.5px; text-decoration: none; }
+  .btn-primary { background: linear-gradient(90deg, var(--indigo), var(--violet)); color: #fff; }
+  .btn-secondary { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 40px 0 0; }
+  .stat { background: #fff; padding: 20px 16px; text-align: left; }
+  .stat .num { font-family: 'Manrope', sans-serif; font-size: 26px; font-weight: 800; color: var(--indigo); }
+  .stat .label { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
+
+  section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  section.no-border { border-bottom: none; }
+  section h2 { font-size: 26px; font-weight: 800; margin: 0 0 18px; }
+  section p { color: var(--ink-soft); font-size: 16px; margin: 0 0 14px; max-width: 680px; }
+
+  .thread {
+    padding: 0;
+    margin: 8px 0 0;
+    list-style: none;
+  }
+  .thread li {
+    position: relative;
+    padding: 0 0 20px 28px;
+    border-left: 2px solid var(--line);
+    margin-left: 5px;
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+  .thread li:last-child { border-left: 2px solid transparent; padding-bottom: 0; }
+  .thread li::before {
+    content: "";
+    position: absolute;
+    left: -7px;
+    top: 2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--indigo), var(--violet));
+  }
+  .thread strong { color: var(--ink); font-weight: 600; }
+
+  /* Project cards */
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 8px;
+  }
+  .project-card {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 24px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+  .project-card .num-tag {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--violet);
+    letter-spacing: 0.02em;
+    margin-bottom: 10px;
+  }
+  .project-card h3 { font-size: 19px; margin: 0 0 8px; }
+  .project-card .domain {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 3px 10px;
+    margin-bottom: 12px;
+    width: fit-content;
+  }
+  .project-card p { font-size: 14.5px; margin: 0 0 16px; flex-grow: 1; }
+  .project-card .metric-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .project-card .metric .val { font-family: 'Manrope', sans-serif; font-weight: 800; color: var(--indigo); font-size: 17px; }
+  .project-card .metric .lab { font-size: 11.5px; color: var(--ink-soft); }
+  .project-card .card-links { display: flex; gap: 10px; }
+  .project-card .card-links a {
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--indigo);
+  }
+
+  .decision { padding: 20px 0; border-top: 1px solid var(--line); }
+  .decision:first-child { border-top: none; }
+  .decision h3 { font-size: 17px; margin: 0 0 8px; font-weight: 700; }
+  .decision p { margin: 0; font-size: 15px; }
+
+  .closing { padding: 64px 0 88px; text-align: left; }
+  .closing h2 { font-size: 28px; }
+  .closing p { font-size: 16px; margin-bottom: 24px; max-width: 640px; }
+
+  @media (max-width: 700px) {
+    .hero h1 { font-size: 32px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .project-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="kicker">Noreen Javed — NextGen AI Automations</div>
+    <h1>Six AI agents, one pattern: <span class="accent">rules you can audit, humans where it matters</span></h1>
+    <p class="lede">I built six small AI automation systems across freight, insurance, customer support, real estate, and mortgage lending — each one designed around the same idea: let deterministic rules make the auditable decisions, and only interrupt a human when there's a real judgment call to make. Every project is deployed, evaluated on labeled test data, and pushed to a public repo you can actually run.</p>
+    <div class="cta-row">
+      <a href="#projects" class="btn btn-primary">See the six projects</a>
+      <a href="https://github.com/nextgenaiautomations16-alt" class="btn btn-secondary">All repos on GitHub</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num">6</div><div class="label">Deployed AI agents</div></div>
+      <div class="stat"><div class="num">5</div><div class="label">Industries covered</div></div>
+      <div class="stat"><div class="num">100%</div><div class="label">Eval accuracy, each project</div></div>
+      <div class="stat"><div class="num">1</div><div class="label">Real bug an eval caught &amp; I fixed</div></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>Why I built these back to back</h2>
+    <p>I didn't want a single polished demo — I wanted to prove the same architecture holds up across genuinely different problems. Each project started from the same question: what decision here is actually a fact (something a rule can check), and what's a real judgment call that still needs a person? Getting that split right, and being honest in the code and the docs about what's live versus what's a documented next step, mattered more to me than any individual feature.</p>
+    <ol class="thread">
+      <li><strong>LoadAudit AI</strong> came first, out of research into where freight brokerages are actually spending money on manual work right now — invoice reconciliation was the clearest, most cited pain point.</li>
+      <li><strong>Carrier Vet AI</strong> followed naturally — same brokerage, a different back-office decision, and a chance to test whether the pattern (rules engine + human-in-the-loop) would hold somewhere the stakes and inputs were completely different.</li>
+      <li><strong>Claims Intake AI</strong> pushed the pattern into a new industry on purpose. Insurance triage has a failure mode — a missed fatality claim — that can't be tolerated at all, so this is where I built a metric that reports that specific failure mode on its own line instead of letting it hide inside an aggregate accuracy score.</li>
+      <li><strong>Support Triage AI</strong> is the most broadly relatable of the six, and it's also where my own eval harness caught a real bug — a routine question was getting misrouted because of an overly broad keyword match. I fixed it and left the story in the docs instead of quietly deleting the evidence.</li>
+      <li><strong>Lead Response AI</strong> is the odd one out on purpose — real estate, not back-office compliance, and speed-sensitive rather than audit-sensitive. I wanted to test whether the same rules-engine-plus-human-in-the-loop pattern would still make sense somewhere the entire point is reacting in seconds, not carefully reviewing an exception.</li>
+      <li><strong>Mortgage Doc Intake AI</strong> brought the pattern back to document-heavy back-office work, and paired naturally with the real-estate project before it. It's also where the "handle every outcome differently" principle across the whole series shows up most clearly — a missing document, an illegible one, and a stale one are three genuinely different problems, and the system treats them that way instead of lumping them into one generic "flagged" bucket.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <h2>The six projects</h2>
+    <div class="project-grid">
+
+      <div class="project-card">
+        <div class="num-tag">01 — FREIGHT</div>
+        <span class="domain">Invoice reconciliation</span>
+        <h3>LoadAudit AI</h3>
+        <p>Extracts data from carrier invoices, checks it against the rate confirmation on file, auto-clears clean matches, and drafts a dispute email for anything that doesn't add up — with a real Slack alert going to a human for the exceptions.</p>
+        <div class="metric-row">
+          <div class="metric"><div class="val">100%</div><div class="lab">accuracy</div></div>
+          <div class="metric"><div class="val">9/30</div><div class="lab">flagged</div></div>
+        </div>
+        <div class="card-links">
+          <a href="loadaudit-ai-case-study.html">Case study →</a>
+          <a href="https://github.com/nextgenaiautomations16-alt/loadaudit-ai">GitHub</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="num-tag">02 — FREIGHT</div>
+        <span class="domain">Carrier vetting</span>
+        <h3>Carrier Vet AI</h3>
+        <p>Checks a new carrier's operating authority, insurance, and safety rating before a broker assigns them a load. Hard regulatory disqualifiers reject automatically with no human interruption — only real judgment calls reach Slack.</p>
+        <div class="metric-row">
+          <div class="metric"><div class="val">100%</div><div class="lab">accuracy</div></div>
+          <div class="metric"><div class="val">6/25</div><div class="lab">reviewed</div></div>
+        </div>
+        <div class="card-links">
+          <a href="carrier-vet-ai-case-study.html">Case study →</a>
+          <a href="https://github.com/nextgenaiautomations16-alt/carrier-vet-ai">GitHub</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="num-tag">03 — INSURANCE</div>
+        <span class="domain">Claims triage</span>
+        <h3>Claims Intake AI</h3>
+        <p>Routes incoming insurance claims to an adjuster, back to the claimant, or fast-tracks them — with a fatality check that runs first and alone, and an eval metric that reports fatality misses on its own line, never buried in an aggregate score.</p>
+        <div class="metric-row">
+          <div class="metric"><div class="val">100%</div><div class="lab">accuracy</div></div>
+          <div class="metric"><div class="val">0</div><div class="lab">fatality misses</div></div>
+        </div>
+        <div class="card-links">
+          <a href="claims-intake-ai-case-study.html">Case study →</a>
+          <a href="https://github.com/nextgenaiautomations16-alt/claims-intake-ai">GitHub</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="num-tag">04 — SUPPORT</div>
+        <span class="domain">Ticket triage</span>
+        <h3>Support Triage AI</h3>
+        <p>Auto-replies to routine questions from a small knowledge base and escalates everything else with priority scaled by urgency and account tier. My own eval caught a real misrouting bug before this ever reached a demo.</p>
+        <div class="metric-row">
+          <div class="metric"><div class="val">100%</div><div class="lab">accuracy</div></div>
+          <div class="metric"><div class="val">0/6</div><div class="lab">under-prioritized</div></div>
+        </div>
+        <div class="card-links">
+          <a href="support-triage-ai-case-study.html">Case study →</a>
+          <a href="https://github.com/nextgenaiautomations16-alt/support-triage-ai">GitHub</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="num-tag">05 — REAL ESTATE</div>
+        <span class="domain">Lead response</span>
+        <h3>Lead Response AI</h3>
+        <p>Scores every inbound lead and drafts an instant reply regardless of quality, then pages an agent in real time — "call within 5 minutes" — the moment a lead is genuinely pre-approved and ready to move.</p>
+        <div class="metric-row">
+          <div class="metric"><div class="val">100%</div><div class="lab">accuracy</div></div>
+          <div class="metric"><div class="val">0</div><div class="lab">hot leads missing a reply</div></div>
+        </div>
+        <div class="card-links">
+          <a href="lead-response-ai-case-study.html">Case study →</a>
+          <a href="https://github.com/nextgenaiautomations16-alt/lead-response-ai">GitHub</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="num-tag">06 — MORTGAGE</div>
+        <span class="domain">Document intake</span>
+        <h3>Mortgage Doc Intake AI</h3>
+        <p>Checks a borrower's submitted documents against the required checklist for their loan and employment type, auto-drafts requests for anything missing, and flags illegible, stale, or mismatched documents for a human to review.</p>
+        <div class="metric-row">
+          <div class="metric"><div class="val">100%</div><div class="lab">accuracy</div></div>
+          <div class="metric"><div class="val">10/26</div><div class="lab">flagged for review</div></div>
+        </div>
+        <div class="card-links">
+          <a href="mortgage-doc-intake-ai-case-study.html">Case study →</a>
+          <a href="https://github.com/nextgenaiautomations16-alt/mortgage-doc-intake-ai">GitHub</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="no-border">
+  <div class="wrap">
+    <h2>The pattern, if you only read one thing</h2>
+    <div class="decision">
+      <h3>Rules make the decision; the model gathers information</h3>
+      <p>In all six projects, an LLM or a lookup step turns messy input into structured data — but the actual approve/flag/escalate decision comes from an explicit rules engine. That's what makes each system auditable: I can point to the exact line of logic behind any outcome.</p>
+    </div>
+    <div class="decision">
+      <h3>Humans get interrupted only when there's a real decision left</h3>
+      <p>Hard rejects, clean approvals, and routine auto-replies never page anyone. Slack alerts are reserved for the cases that actually need a judgment call — which is also what keeps the alerts worth paying attention to instead of becoming noise.</p>
+    </div>
+    <div class="decision">
+      <h3>Every project is evaluated on labeled data, and the docs say what's real</h3>
+      <p>Each README states plainly what's a working, tested code path and what's a documented next step — including the ordering bug my own eval harness caught and I fixed, rather than presenting a first-try demo as flawless.</p>
+    </div>
+  </div>
+</section>
+
+<div class="closing">
+  <div class="wrap">
+    <h2>Let's talk</h2>
+    <p>I'm looking for Forward Deployed AI Engineer / AI Solutions Engineer roles — especially anywhere a messy operational workflow could use exactly this kind of system. Happy to walk through any of these projects, the design decisions behind them, or how the pattern would apply to your team's specific back office.</p>
+    <div class="cta-row">
+      <a href="https://github.com/nextgenaiautomations16-alt" class="btn btn-primary">github.com/nextgenaiautomations16-alt</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

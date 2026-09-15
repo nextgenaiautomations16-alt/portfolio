@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LoadAudit AI — Case Study</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #ffffff;
+    --surface: #f6f7fb;
+    --line: #e6e8f0;
+    --ink: #14161f;
+    --ink-soft: #565a6e;
+    --indigo: #4338ca;
+    --violet: #7c3aed;
+    --good: #0f9d58;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, .display {
+    font-family: 'Manrope', sans-serif;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+  /* Hero */
+  .hero {
+    padding: 88px 0 56px;
+    background: linear-gradient(180deg, #fbfbfe 0%, #ffffff 100%);
+    border-bottom: 1px solid var(--line);
+  }
+  .hero .kicker {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin: 0 0 20px;
+    max-width: 620px;
+  }
+  .hero .lede {
+    font-size: 18px;
+    color: var(--ink-soft);
+    max-width: 560px;
+    margin: 0 0 28px;
+  }
+  .hero .accent { background: linear-gradient(90deg, var(--indigo), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 11px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14.5px;
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: linear-gradient(90deg, var(--indigo), var(--violet));
+    color: #fff;
+  }
+  .btn-secondary {
+    background: #fff;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+
+  /* Stats */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 40px 0 0;
+  }
+  .stat { background: #fff; padding: 22px 18px; text-align: left; }
+  .stat .num { font-family: 'Manrope', sans-serif; font-size: 30px; font-weight: 800; color: var(--indigo); }
+  .stat .label { font-size: 13.5px; color: var(--ink-soft); margin-top: 4px; }
+
+  /* Sections */
+  section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  section.no-border { border-bottom: none; }
+  section h2 { font-size: 26px; font-weight: 800; margin: 0 0 18px; }
+  section p { color: var(--ink-soft); font-size: 16px; margin: 0 0 14px; max-width: 640px; }
+  section p.tight { max-width: 100%; }
+
+  .evidence-list { padding: 0; margin: 0; list-style: none; }
+  .evidence-list li {
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+  .evidence-list li:first-child { border-top: none; }
+  .evidence-list strong { color: var(--ink); font-weight: 600; }
+
+  /* Architecture diagram */
+  .diagram {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 28px 20px;
+    margin: 22px 0;
+  }
+  .flow { display: flex; flex-direction: column; gap: 0; }
+  .flow-step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 0;
+  }
+  .flow-badge {
+    flex: none;
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--indigo), var(--violet));
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    font-family: 'Manrope', sans-serif;
+  }
+  .flow-text { font-size: 15px; }
+  .flow-text .title { font-weight: 600; color: var(--ink); }
+  .flow-text .sub { color: var(--ink-soft); font-size: 13.5px; }
+  .flow-connector {
+    width: 1px;
+    height: 18px;
+    background: var(--line);
+    margin-left: 15px;
+  }
+  .flow-branch {
+    margin-left: 44px;
+    padding-left: 16px;
+    border-left: 2px solid var(--line);
+    margin-top: 4px;
+    margin-bottom: 8px;
+  }
+
+  /* Design decisions */
+  .decision {
+    padding: 20px 0;
+    border-top: 1px solid var(--line);
+  }
+  .decision:first-child { border-top: none; }
+  .decision h3 { font-size: 17px; margin: 0 0 8px; font-weight: 700; }
+  .decision p { margin: 0; font-size: 15px; }
+
+  /* Screenshot frame */
+  .screenshot-frame {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface);
+    margin: 20px 0;
+  }
+  .screenshot-frame .bar {
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+    padding: 10px 14px;
+    display: flex;
+    gap: 6px;
+  }
+  .screenshot-frame .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+  .screenshot-frame .placeholder {
+    padding: 60px 24px;
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 14px;
+    border: 1.5px dashed var(--line);
+    margin: 16px;
+    border-radius: 8px;
+  }
+
+  /* Roadmap */
+  .roadmap-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+  .roadmap-item .mark { color: var(--violet); font-weight: 700; flex: none; }
+
+  /* Footer CTA */
+  .closing {
+    padding: 64px 0 88px;
+    text-align: left;
+  }
+  .closing h2 { font-size: 28px; }
+  .closing p { font-size: 16px; margin-bottom: 24px; }
+
+  code, .mono { font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 13.5px; }
+  .inline-code {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 1px 6px;
+    font-size: 13.5px;
+  }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 30px; }
+    .stats { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="kicker">Case study — NextGen AI Automations</div>
+    <h1>Teaching an AI agent to <span class="accent">catch bad freight invoices</span> before they get paid</h1>
+    <p class="lede">Freight brokers manually check every carrier invoice against the rate confirmation before paying it. LoadAudit AI automates that check — and alerts a human the moment something doesn't add up.</p>
+    <div class="cta-row">
+      <a href="https://github.com/nextgenaiautomations16-alt/loadaudit-ai" class="btn btn-primary">View the code on GitHub</a>
+      <a href="#architecture" class="btn btn-secondary">See how it works</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num">100%</div><div class="label">Match accuracy on labeled test set</div></div>
+      <div class="stat"><div class="num">9 / 30</div><div class="label">Invoices flagged with a caught discrepancy</div></div>
+      <div class="stat"><div class="num">0</div><div class="label">False positives or missed discrepancies</div></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>The problem</h2>
+    <p>Before a broker pays a carrier invoice, someone has to check it against three things: the rate confirmation, the load tender, and any pre-authorized accessorial charges (detention, layover, lumper fees). This "3-way match" is manual, slow, and error-prone — done right, it catches real overbilling; done under time pressure, it doesn't.</p>
+    <p>A mid-size shipper running 500 loads a month spends real hours a week on this. Industry benchmarks put 5–10% of invoices at having at least one billing discrepancy — money that gets paid out unless someone catches it first.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Evidence this is a real, active problem</h2>
+    <ul class="evidence-list">
+      <li><strong>Manual audit is expensive.</strong> Automated invoice reconciliation is reported to cut discrepancy-resolution time 65–75% versus fully manual review, and typically recovers 3–8% of total audited freight spend from caught overbilling.</li>
+      <li><strong>Vendors are building entire products around this.</strong> Freight-audit and AI-native TMS companies market this exact workflow as a core feature — proof brokers are already paying to solve it.</li>
+      <li><strong>Forward Deployed Engineer roles in freight/logistics are actively hiring right now</strong> — including postings that explicitly list TMS integrations and BOL/rate-confirmation knowledge as requirements.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p>An invoice comes in, gets parsed into structured data, and gets checked against the rate confirmation on file. Clean matches clear automatically. Anything that fails a check gets a plain-language explanation, a drafted dispute email, and a real-time alert to a human — instead of quietly getting approved.</p>
+
+    <div class="diagram">
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-badge">1</div>
+          <div class="flow-text"><div class="title">Carrier invoice arrives</div><div class="sub">email, PDF, or API</div></div>
+        </div>
+        <div class="flow-connector"></div>
+        <div class="flow-step">
+          <div class="flow-badge">2</div>
+          <div class="flow-text"><div class="title">Extraction</div><div class="sub">LLM parses it into structured fields — load ID, rate, accessorials, POD status</div></div>
+        </div>
+        <div class="flow-connector"></div>
+        <div class="flow-step">
+          <div class="flow-badge">3</div>
+          <div class="flow-text"><div class="title">Deterministic 3-way match</div><div class="sub">checked against the rate confirmation on file</div></div>
+        </div>
+        <div class="flow-connector"></div>
+        <div class="flow-step">
+          <div class="flow-badge">4</div>
+          <div class="flow-text"><div class="title">Decision</div><div class="sub">clean → auto-approved · flagged → dispute drafted</div></div>
+        </div>
+        <div class="flow-branch">
+          <div class="flow-text"><div class="title">Human alerted in Slack</div><div class="sub">discrepancy reason + drafted dispute email, ready to act on</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Deliberate design decisions</h2>
+
+    <div class="decision">
+      <h3>The match decision is rule-based, not LLM-judged</h3>
+      <p>The LLM's job is turning messy invoice text into structured data. A deterministic engine makes the actual approve/flag call, because that decision needs to hold up to an AP manager or auditor after the fact — "the model felt it looked fine" isn't a defensible reason to release payment.</p>
+    </div>
+
+    <div class="decision">
+      <h3>It's evaluated honestly, not demoed once and called done</h3>
+      <p>A labeled synthetic dataset and an evaluation harness score precision and recall on every run — <span class="inline-code">python -m eval.run_eval</span> — rather than relying on one good-looking example.</p>
+    </div>
+
+    <div class="decision">
+      <h3>The human stays in the loop</h3>
+      <p>Flagged invoices don't get silently rejected or silently approved — they land in Slack with the reason and a drafted response, so a person makes the final call with full context in seconds, not minutes of digging.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Deployed and tested — not a notebook</h2>
+    <p>The alert step above isn't a mockup. Here's a real flagged invoice landing in Slack during testing:</p>
+    <div class="screenshot-frame">
+      <div class="bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="placeholder">[ Replace this box with your Slack screenshot — the 🚩 alert message with the discrepancy reason and drafted dispute email ]</div>
+    </div>
+  </div>
+</section>
+
+<section class="no-border">
+  <div class="wrap">
+    <h2>What's next</h2>
+    <div class="roadmap-item"><div class="mark">→</div><div>Wire a real TMS or Airtable connection in place of the current local data store</div></div>
+    <div class="roadmap-item"><div class="mark">→</div><div>Add clickable Approve/Dispute buttons directly inside Slack</div></div>
+    <div class="roadmap-item"><div class="mark">→</div><div>Persist results to Postgres and add a live dashboard — match rate, dollars caught, cycle time</div></div>
+    <div class="roadmap-item"><div class="mark">→</div><div>Add OCR ahead of extraction to handle real scanned PDFs</div></div>
+  </div>
+</section>
+
+<div class="closing">
+  <div class="wrap">
+    <h2>Want to see it running?</h2>
+    <p>Full source, README, and evaluation results are on GitHub. Happy to walk through the code or talk about how this generalizes to other document-heavy back-office workflows.</p>
+    <div class="cta-row">
+      <a href="https://github.com/nextgenaiautomations16-alt/loadaudit-ai" class="btn btn-primary">github.com/nextgenaiautomations16-alt/loadaudit-ai</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
